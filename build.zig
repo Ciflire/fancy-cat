@@ -9,7 +9,7 @@ fn addMupdfDeps(exe: *std.Build.Step.Compile, target: std.Target) void {
         exe.addLibraryPath(.{ .cwd_relative = "/usr/local/lib" });
     } else if (target.os.tag == .linux) {
         const linux_libs = [_][]const u8{
-            "harfbuzz",
+            "mupdf",       "harfbuzz",
             "freetype",    "jbig2dec",
             "jpeg",        "openjp2",
             "gumbo",       "mujs",
