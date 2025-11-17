@@ -10,64 +10,91 @@
 </p>
 
 ![demo](https://github.com/user-attachments/assets/b1edc9d2-3b1f-437d-9b48-c196d22fcbbd)
+
 ## Usage
+
 ```sh
 fancy-cat <path-to-pdf> <optional-page-number>
 ```
-Keymappings and other options can be found and changed in ``src/config.zig``.
+
+### Commands
+
+fancy-cat uses a modal interface similar to Neovim. There are two modes: view mode and command mode. To enter command mode you type `:` by default (this can be changed in the config file).
+
+Documentation on the available commands can be found [here](./docs/commands.md).
+
+### Configuration
+
+fancy-cat can be configured through a JSON configuration file located in one of several locations (primary `$XDG_CONFIG_HOME/fancy-cat/config.json`, fallback `$HOME/.config/fancy-cat/config.json`, legacy `$HOME/.fancy-cat`). An empty configuration file is automatically created in the primary or fallback location on the first run.
+
+An example `config.json` and documentation can be found [here](./docs/config.md).
+
+## Installation
+
+`fancy-cat` is available in the following repositories:
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/fancy-cat.svg?columns=3&header=fancy-cat)](https://repology.org/project/fancy-cat/versions)
+
 ## Build Instructions
+
 ### Requirements
-- Zig version ``0.13.0``
+
+- Zig version `0.14.0`
 - Terminal emulator with the Kitty image protocol (e.g. Kitty, Ghostty, WezTerm, etc.)
-- [MuPDF](https://mupdf.readthedocs.io/en/latest/quick-start-guide.html)
-#### MacOS
-``` sh
-brew install mupdf
-```
-#### Linux
-``` sh
-apt install \
-    libmupdf-dev \
-    libharfbuzz-dev \
-    libfreetype6-dev \
-    libjbig2dec0-dev \
-    libjpeg-dev \
-    libopenjp2-7-dev \
-    libgumbo-dev \
-    libmujs-dev \
-    zlib1g-dev
-```
-> [!IMPORTANT]  
-> On some Linux distributions (e.g., Fedora, Arch), replace `mupdf-third` with `mupdf` in ``build.zig`` to compile successfully.
+
 ### Build
-1. Fetch dependencies:
-```sh
-zig build --fetch
+
+1. Fetch submodules:
+
 ```
+git submodule update --init --recursive
+```
+
 2. Build the project:
+
 ```sh
-zig build --release=fast
+zig build --release=small
 ```
-3. Install:  
-```
+
+> [!NOTE]
+> There is a [known issue](https://github.com/freref/fancy-cat/issues/18) with some processors; if the build fails on step 7/10 with the error `LLVM ERROR: Do not know how to expand the result of this operator!` then try the command below instead:
+>
+> ```sh
+> zig build -Dcpu="skylake" --release=small
+> ```
+
+3. Install:
+
+```sh
 # Add to your PATH
 # Linux
 mv zig-out/bin/fancy-cat ~/.local/bin/
 
-# macOS 
+# macOS
 mv zig-out/bin/fancy-cat /usr/local/bin/
 ```
+
 ### Run
-```
+
+```sh
 zig build run -- <path-to-pdf> <optional-page-number>
 ```
+
 ## Features
+
 - ✅ Filewatch (hot-reload)
-- ✅ Custom keymapping
-- ✅ Dark-mode
-- ✅ Zoom
+- ✅ Runtime config
+- ✅ Custom keymappings
+- ✅ Modal interface
+- ✅ Commands
+- ✅ Colorize mode (dark-mode)
 - ✅ Status bar
-- 🚧 Cache
-- 🚧 Search
+- ✅ Page navigation (zoom, prev, next, etc.)
+
+## License
+
+[AGPL-3.0-or-later](https://spdx.org/licenses/AGPL-3.0-or-later.html)
+
 ## Contributing
+
 Contributions are welcome.
